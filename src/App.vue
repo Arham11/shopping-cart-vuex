@@ -1,7 +1,8 @@
 <template>
+  <!-- https://github.com/tyson-tlo/vue3-vuex-shopping-cart -->
   <div id="nav">
     <router-link to="/">Home</router-link>
-    <router-link to="/cart">Cart</router-link>
+    <router-link to="/cart" class="pl-4">Cart</router-link>
   </div>
   <router-view />
 </template>
@@ -28,3 +29,14 @@
   }
 }
 </style>
+
+<script>
+export default {
+  mounted() {
+    this.$store.commit("updateCartFromLocalStorage");
+  },
+  setup() {
+    return {};
+  },
+};
+</script>

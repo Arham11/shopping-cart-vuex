@@ -18,23 +18,33 @@
         <span>Price : </span>
         <span class="text-red-700">$ {{ product.price }}</span>
       </div>
-      <div class="text-base mb-4 font-semibold">
-        In Cart (0)
+      <div v-if="product_total">
+        <h3>In cart</h3>
+        <div class="text-base mb-4 font-semibold">
+          {{ product_total }}
+        </div>
       </div>
+
       <div>
         <button
-          @click="veiwDetails"
-          class="bg-gray-400 py-1 px-2 text-white font-bold rounded-md px-7 mr-3"
+          @click="removeFromCart"
+          class="bg-gray-400 py-1 w-32 text-white font-bold rounded-md px-7 ml-3 inline-block"
         >
-          +
+          Remove
         </button>
         <button
-          @click="veiwDetails"
-          class="bg-gray-400 py-1 px-2 text-white font-bold rounded-md px-7 ml-3"
+          @click="addToCart"
+          class="bg-gray-400 py-1 w-32 text-white font-bold rounded-md px-7 mr-3 inline-block"
         >
-          -
+          Add
         </button>
       </div>
+      <!-- <div
+        @click="addToCart(product)"
+        class="md:w-1/2 mx-auto bg-green-500 py-3 px-2 text-white font-bold rounded-md px-7 mt-4 cursor-pointer"
+      >
+        Add To Cart
+      </div> -->
     </div>
   </div>
 </template>
@@ -44,17 +54,30 @@ export default {
   name: "ProductDescriptionDrawer",
   props: {
     product: {
-      default: ""
-    }
+      default: "",
+    },
   },
   setup(props, { emit }) {
     function close() {
       emit("close");
     }
     return {
-      close
+      close,
     };
-  }
+  },
+  methods: {
+    addToCart() {
+      this.$store.commit("addToCart", this.product);
+    },
+    removeFromCart() {
+      this.$store.commit("removeFromCart", this.product);
+    },
+  },
+  computed: {
+    product_total() {
+      return this.$store.getters.productQuantity(this.product);
+    },
+  },
 };
 </script>
 
